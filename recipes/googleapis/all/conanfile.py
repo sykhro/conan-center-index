@@ -86,6 +86,9 @@ class GoogleAPIS(ConanFile):
         if self._is_legacy_one_profile:
             VirtualRunEnv(self).generate(scope="build")
         tc = CMakeToolchain(self)
+        if self.settings.os == "NX" or "Xbox" in self.settings.arch:
+            tc.preprocessor_definitions["GTEST_HAS_FILE_SYSTEM"] = 0
+        
         tc.generate()
         deps = CMakeDeps(self)
         deps.generate()
